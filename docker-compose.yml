@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: job-applications-management:latest
+    container_name: job-applications-management-crew
+    env_file:
+      - .env.docker
+    environment:
+      - ENVIRONMENT=docker
+    volumes:
+      - ./job_applications_management:/app/job_applications_management
+      - ./data:/app/data
+      - ./notebooks:/app/notebooks
+    ports:
+      - "8001:8000"
+    networks:
+      - app_network
+    healthcheck:
+      # Add a healthcheck to ensure the app is running correctly
+      test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app_network:
+    driver: bridge

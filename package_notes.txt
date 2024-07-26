@@ -1,0 +1,9 @@
+CrewAI
+
+
+LangChain
+
+
+
+ChromaDB (for memory)
+https://pypi.org/project/chromadb/#history
