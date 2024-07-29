@@ -15,7 +15,7 @@ RUN python -m venv /home/appuser/venv && \
     /home/appuser/venv/bin/pip install pip-tools
 
 # Download spaCy language model
-RUN /home/appuser/venv/bin/python -m spacy download en_core_web_lg
+# RUN /home/appuser/venv/bin/python -m spacy download en_core_web_lg
 
 COPY . /app
 
