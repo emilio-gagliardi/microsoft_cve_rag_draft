@@ -1,6 +1,13 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 import logging
+from schemas.environment_schemas import (
+    VectorDBCredentialsSchema,
+    GraphDBCredentialsSchema,
+    DocumentsDBCredentialsSchema,
+    SQLDBCredentialsSchema,
+)
+from pydantic import ValidationError
 
 # Configure the logger
 logging.basicConfig(
@@ -113,3 +120,53 @@ def get_langtrace_api_key():
         logging.error("LANGTRACE_API_KEY environment variable is not set")
         raise ValueError("LANGTRACE_API_KEY environment variable is not set")
     return langtrace_api_key
+
+
+def get_vector_db_credentials() -> VectorDBCredentialsSchema:
+    load_env()
+    try:
+        credentials = VectorDBCredentialsSchema()
+        return credentials
+    except ValidationError as e:
+        logging.error("Vector database environment credentials are not set")
+        logging.error(e)
+        raise ValueError(
+            "VECTOR_DATABASE_USERNAME or VECTOR_DATABASE_PASSWORD environment variable is not set"
+        )
+
+
+def get_graph_db_credentials() -> GraphDBCredentialsSchema:
+    load_env()
+    print(f"Username: {os.getenv('GRAPH_DATABASE_USERNAME')}")
+    print(f"Password: {os.getenv('GRAPH_DATABASE_PASSWORD')}")
+    try:
+        credentials = GraphDBCredentialsSchema()
+        return credentials
+    except ValidationError as e:
+        logging.error("Graph database environment credentials are not set")
+        logging.error(e)
+        raise ValueError(
+            "GRAPH_DATABASE_USERNAME or GRAPH_DATABASE_PASSWORD environment variable is not set"
+        )
+
+
+def get_documents_db_credentials() -> DocumentsDBCredentialsSchema:
+    load_env()
+    try:
+        credentials = DocumentsDBCredentialsSchema()
+        return credentials
+    except ValidationError as e:
+        logging.error("Documents database environment credentials are not set")
+        logging.error(e)
+        raise ValueError("DOCUMENTS_DATABASE_ environment variables are not set")
+
+
+def get_sql_db_credentials() -> SQLDBCredentialsSchema:
+    load_env()
+    try:
+        credentials = SQLDBCredentialsSchema()
+        return credentials
+    except ValidationError as e:
+        logging.error("Documents database environment credentials are not set")
+        logging.error(e)
+        raise ValueError("DOCUMENTS_DATABASE_ environment variables are not set")
