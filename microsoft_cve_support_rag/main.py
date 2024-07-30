@@ -7,6 +7,8 @@ from app_utils import (
     get_openai_api_key,
     get_vector_db_credentials,
     get_graph_db_credentials,
+    get_documents_db_credentials,
+    get_sql_db_credentials,
 )
 import logging
 
@@ -24,10 +26,15 @@ def run():
 
 if __name__ == "__main__":
     vector_credentials = get_vector_db_credentials()
-    print(f"The vector credentials:\n{vector_credentials}")
+    print(f"The vector db credentials:\n{vector_credentials}")
 
-    # graph_credentials = get_graph_db_credentials()
-    # print(f"The graph credentials:\n{graph_credentials}")
+    graph_credentials = get_graph_db_credentials()
+    print(f"The graph db credentials:\n{graph_credentials}")
+
+    documents_credentials = get_documents_db_credentials()
+    print(f"The documents db credentials:\n{documents_credentials}")
+
+    sql_credentials = get_sql_db_credentials()
+    print(f"The sql db credentials:\n{sql_credentials}")
+
     run()
-    # documents_credentials = get_documents_db_credentials()
-    # print(documents_credentials)

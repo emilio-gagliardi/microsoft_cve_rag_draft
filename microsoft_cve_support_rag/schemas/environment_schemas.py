@@ -46,17 +46,17 @@ class GraphDBCredentialsSchema(BaseModel):
 class DocumentsDBCredentialsSchema(BaseModel):
     username: str = Field(..., env="DOCUMENTS_DATABASE_USERNAME")
     password: str = Field(..., env="DOCUMENTS_DATABASE_PASSWORD")
-    host: str = Field("localhost", env="DOCUMENTS_DATABASE_HOST")
-    port: int = Field(27017, env="DOCUMENTS_DATABASE_PORT")
-    cluster: Optional[str] = Field(None, env="DOCUMENTS_DATABASE_CLUSTER")
-    cluster_id: Optional[str] = Field(None, env="DOCUMENTS_DATABASE_CLUSTER_ID")
-    protocol: str = Field(None, env="DOCUMENTS_DATABASE_PROTOCOL")
+    host: Optional[str] = Field(None, env="DOCUMENTS_DATABASE_HOST")
+    port: Optional[int] = Field(None, env="DOCUMENTS_DATABASE_PORT")
+    db_cluster: str = Field(..., env="DOCUMENTS_DATABASE_CLUSTER")
+    db_cluster_id: str = Field(..., env="DOCUMENTS_DATABASE_CLUSTER_ID")
+    protocol: str = Field(..., env="DOCUMENTS_DATABASE_PROTOCOL")
     uri: Optional[str] = Field(None, env="DOCUMENTS_DATABASE_URI")
 
     @model_validator(mode="after")
     def construct_uri(cls, values):
         if not values.uri:
-            values.uri = f"{values.protocol}://{values.username}:{values.password}@{values.cluster}.{values.cluster_id}.mongodb.net/"
+            values.uri = f"{values.protocol}://{values.username}:{values.password}@{values.db_cluster}.{values.db_cluster_id}.mongodb.net/"
         return values
 
 

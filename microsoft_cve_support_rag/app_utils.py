@@ -137,10 +137,14 @@ def get_vector_db_credentials() -> VectorDBCredentialsSchema:
 
 def get_graph_db_credentials() -> GraphDBCredentialsSchema:
     load_env()
-    print(f"Username: {os.getenv('GRAPH_DATABASE_USERNAME')}")
-    print(f"Password: {os.getenv('GRAPH_DATABASE_PASSWORD')}")
     try:
-        credentials = GraphDBCredentialsSchema()
+        credentials = GraphDBCredentialsSchema(
+            username=os.getenv("GRAPH_DATABASE_USERNAME"),
+            password=os.getenv("GRAPH_DATABASE_PASSWORD"),
+            host=os.getenv("GRAPH_DATABASE_HOST"),
+            port=int(os.getenv("GRAPH_DATABASE_PORT")),
+            protocol=os.getenv("GRAPH_DATABASE_PROTOCOL"),
+        )
         return credentials
     except ValidationError as e:
         logging.error("Graph database environment credentials are not set")
@@ -153,7 +157,13 @@ def get_graph_db_credentials() -> GraphDBCredentialsSchema:
 def get_documents_db_credentials() -> DocumentsDBCredentialsSchema:
     load_env()
     try:
-        credentials = DocumentsDBCredentialsSchema()
+        credentials = DocumentsDBCredentialsSchema(
+            username=os.getenv("DOCUMENTS_DATABASE_USERNAME"),
+            password=os.getenv("DOCUMENTS_DATABASE_PASSWORD"),
+            db_cluster=os.getenv("DOCUMENTS_DATABASE_CLUSTER"),
+            db_cluster_id=os.getenv("DOCUMENTS_DATABASE_CLUSTER_ID"),
+            protocol=os.getenv("DOCUMENTS_DATABASE_PROTOCOL"),
+        )
         return credentials
     except ValidationError as e:
         logging.error("Documents database environment credentials are not set")
@@ -164,9 +174,15 @@ def get_documents_db_credentials() -> DocumentsDBCredentialsSchema:
 def get_sql_db_credentials() -> SQLDBCredentialsSchema:
     load_env()
     try:
-        credentials = SQLDBCredentialsSchema()
+        credentials = SQLDBCredentialsSchema(
+            username=os.getenv("SQL_DATABASE_USERNAME"),
+            password=os.getenv("SQL_DATABASE_PASSWORD"),
+            host=os.getenv("SQL_DATABASE_HOST"),
+            port=os.getenv("SQL_DATABASE_PORT"),
+            protocol=os.getenv("SQL_DATABASE_PROTOCOL"),
+        )
         return credentials
     except ValidationError as e:
-        logging.error("Documents database environment credentials are not set")
+        logging.error("SQL database environment credentials are not set")
         logging.error(e)
-        raise ValueError("DOCUMENTS_DATABASE_ environment variables are not set")
+        raise ValueError("SQL_DATABASE_ environment variables are not set")
