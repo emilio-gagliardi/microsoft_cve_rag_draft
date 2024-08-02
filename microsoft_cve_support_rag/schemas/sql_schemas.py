@@ -3,7 +3,7 @@ from typing import Optional, List, Dict
 from datetime import datetime, timezone
 
 
-class DocumentRecordBase(BaseModel):
+class SQLRecordBase(BaseModel):
     id: Optional[str] = Field(None, description="Unique identifier of the record")
     created_at: Optional[datetime] = Field(
         None, description="Timestamp when the record was created"
@@ -22,25 +22,25 @@ class DocumentRecordBase(BaseModel):
         return value or datetime.now(timezone.utc)
 
 
-class DocumentRecordCreate(DocumentRecordBase):
+class SQLRecordCreate(SQLRecordBase):
     pass
 
 
-class DocumentRecordUpdate(DocumentRecordBase):
+class SQLRecordUpdate(SQLRecordBase):
     id: str
 
 
-class DocumentRecordDelete(BaseModel):
+class SQLRecordDelete(BaseModel):
     id: str
 
 
-class DocumentRecordQuery(BaseModel):
+class SQLRecordQuery(BaseModel):
     query: Dict[str, str] = Field(..., description="Query parameters")
     page: Optional[int] = Field(1, description="Page number for pagination")
     page_size: Optional[int] = Field(10, description="Number of records per page")
 
 
-class DocumentRecordResponse(BaseModel):
+class SQLRecordResponse(BaseModel):
     id: Optional[str] = Field(None, description="Unique identifier of the record")
     message: str = Field(..., description="Response message")
     created_at: Optional[datetime] = Field(
@@ -51,8 +51,8 @@ class DocumentRecordResponse(BaseModel):
     )
 
 
-class DocumentRecordQueryResponse(BaseModel):
-    results: List[DocumentRecordBase] = Field(
+class SQLRecordQueryResponse(BaseModel):
+    results: List[SQLRecordBase] = Field(
         ..., description="List of records matching the query"
     )
     total_count: int = Field(
@@ -62,13 +62,14 @@ class DocumentRecordQueryResponse(BaseModel):
     page_size: int = Field(..., description="Number of records per page")
 
 
-class BulkDocumentRecordCreate(BaseModel):
-    records: List[DocumentRecordCreate]
+class BulkSQLRecordCreate(BaseModel):
+    records: List[SQLRecordCreate]
 
 
-class BulkDocumentRecordUpdate(BaseModel):
-    records: List[DocumentRecordUpdate]
-
-
-class BulkDocumentRecordDelete(BaseModel):
+class BulkSQLRecordDelete(BaseModel):
     ids: List[str]
+
+
+class ErrorResponse(BaseModel):
+    error: str = Field(..., description="Error message")
+    code: int = Field(..., description="Error code")
