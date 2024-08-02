@@ -30,3 +30,5 @@ Build Dockerfile and docker-compose.yml
 Going to production
 remove Jupyter resources from environment
 conda remove --name myenv jupyter jupyterlab notebook ipywidgets jupyter_contrib_nbextensions jupyter_nbextensions_configurator
+
+update to test git connection
